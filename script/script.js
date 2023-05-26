@@ -1,12 +1,66 @@
-const carts = document.querySelectorAll('.cart');
+const cartObj = [
+    {className: 'car', src: 'style/car.png'},//1
+    {className: 'car', src: 'style/car.png'},//2
+    {className: 'steering-wheel', src: 'style/steering-wheel.png'},//3
+    {className: 'steering-wheel', src: 'style/steering-wheel.png'},//4
+    {className: 'smile', src: 'style/smile.png'},//5
+    {className: 'smile', src: 'style/smile.png'},//6
+    {className: 'tumblr-logo', src: 'style/tumblr-logo.png'},//7
+    {className: 'tumblr-logo', src: 'style/tumblr-logo.png'},//8
+    {className: 'sad', src: 'style/sad.png'},//9
+    {className: 'sad', src: 'style/sad.png'},//10
+    {className: 'facebook', src: 'style/facebook.png'},//11
+    {className: 'facebook', src: 'style/facebook.png'},//12
+    {className: 'sun', src: 'style/sun.png'},//13
+    {className: 'sun', src: 'style/sun.png'},//14
+    {className: 'moon', src: 'style/moon.png'},//15
+    {className: 'moon', src: 'style/moon.png'},//16
+    {className: 'racing', src: 'style/racing.png'},//17
+    {className: 'racing', src: 'style/racing.png'},//18
+    {className: 'telephone-call', src: 'style/telephone-call.png'},//19
+    {className: 'telephone-call', src: 'style/telephone-call.png'}//20
+]
 const startMenu = document.querySelector('.start-menu');
 const nextLevel = document.querySelector('.next-level');
 const defaultCartClassName = 'cart';
 let maxGameCart = 20;
 let activeElement = 0;
 
-for (let i = 0; i < carts.length; i++){
-    carts[i].addEventListener('click', mainAction);
+function createCart(){
+    let cart = document.createElement('div');
+    cart.classList.add('cart');
+    let img = document.createElement('img');
+    img.setAttribute('src', '/');
+    img.setAttribute('alt', 'image error');
+    cart.appendChild(img);
+    return cart;
+}
+
+function randomPosition(){
+    let cartImages = [...cartObj];
+    let carts = document.querySelectorAll('.cart');
+    for (let i = 0; i < carts.length; i++) {
+        let indexElement = Math.floor(Math.random() * (carts.length - i));
+        element = cartImages[indexElement];
+        carts[i].className = defaultCartClassName + ' ' + element.className;
+        carts[i].firstChild.src = element.src;
+        cartImages.splice(indexElement, 1);
+        carts[i].addEventListener('click', mainAction);
+    }
+}   
+
+function startGame(startMenu){ 
+    let container = document.querySelector('.container');
+    for(let i = 0; i < 20; i++){
+        let cart = createCart();
+        container.appendChild(cart);
+    }
+    
+    randomPosition();
+    if(startMenu) hideStartMenu();
+    if(!startMenu){
+        hideNextLevelMenu();
+    } 
 }
 
 function check(element){
@@ -20,6 +74,10 @@ function mainAction(){
     if(!check(this)) return;
     showContent(this);
 }
+
+
+
+
 
 function showContent(element){
     element.style.animation = '1.5s rotateAnimation';
@@ -51,9 +109,6 @@ function compareEements(){
         }, 1500) 
     }
     activeElement = 0;
-    // setTimeout(() => {
-        
-    // });
 }
 
 function hideContent(comparingElements){
@@ -65,48 +120,6 @@ function hideContent(comparingElements){
     comparingElements[1].firstChild.style.animation = '1.5s opacityAnimationReverse';
     comparingElements[0].firstChild.classList.remove('visible');    
     comparingElements[1].firstChild.classList.remove('visible');
-}
-
-const cartObj = [
-    {className: 'car', src: 'style/car.png'},//1
-    {className: 'car', src: 'style/car.png'},//2
-    {className: 'steering-wheel', src: 'style/steering-wheel.png'},//3
-    {className: 'steering-wheel', src: 'style/steering-wheel.png'},//4
-    {className: 'smile', src: 'style/smile.png'},//5
-    {className: 'smile', src: 'style/smile.png'},//6
-    {className: 'tumblr-logo', src: 'style/tumblr-logo.png'},//7
-    {className: 'tumblr-logo', src: 'style/tumblr-logo.png'},//8
-    {className: 'sad', src: 'style/sad.png'},//9
-    {className: 'sad', src: 'style/sad.png'},//10
-    {className: 'facebook', src: 'style/facebook.png'},//11
-    {className: 'facebook', src: 'style/facebook.png'},//12
-    {className: 'sun', src: 'style/sun.png'},//13
-    {className: 'sun', src: 'style/sun.png'},//14
-    {className: 'moon', src: 'style/moon.png'},//15
-    {className: 'moon', src: 'style/moon.png'},//16
-    {className: 'racing', src: 'style/racing.png'},//17
-    {className: 'racing', src: 'style/racing.png'},//18
-    {className: 'telephone-call', src: 'style/telephone-call.png'},//19
-    {className: 'telephone-call', src: 'style/telephone-call.png'}//20
-]
-
-function randomPosition(){
-    let cartImages = [...cartObj];
-    for (let i = 0; i < carts.length; i++) {
-        let indexElement = Math.floor(Math.random() * (carts.length - i));
-        element = cartImages[indexElement];
-        carts[i].className = defaultCartClassName + ' ' + element.className;
-        carts[i].firstChild.src = element.src;
-        cartImages.splice(indexElement, 1);
-    }
-}
-
-function startGame(startMenu){
-    randomPosition();
-    if(startMenu) hideStartMenu();
-    if(!startMenu){
-        hideNextLevelMenu();
-    } 
 }
 
 function hideStartMenu(){
